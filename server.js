@@ -1,16 +1,21 @@
 const dns = require('node:dns');
 const path = require('node:path');
 const express = require('express');
+const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 3000;
-const urlsById = new Map();
-const idsByUrl = new Map();
-let nextId = 1;
+
+// INDISPENSABLE pour freeCodeCamp
+app.use(cors({ optionsSuccessStatus: 200 }));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+const urlsById = new Map();
+const idsByUrl = new Map();
+let nextId = 1;
 
 function parseUrl(value) {
   if (typeof value !== 'string' || !/^https?:\/\/[^\s/]+(?:[/?#][^\s]*)?$/i.test(value)) {
